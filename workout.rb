@@ -1,5 +1,7 @@
 class Workout
-attr_accessor :id, :type, :duration, :calories
+attr_reader :exercises, :date, :type, :duration, :calories
+attr_accessor :id
+
   def initialize(workout_hash)
     @date = workout_hash[:date]
     @exercises = workout_hash[:exercises]
@@ -9,24 +11,15 @@ attr_accessor :id, :type, :duration, :calories
     @calories = get_calories
   end
 
-  def exercises
-    @exercises
-  end
-
-  def date
-    @date
-  end
-
   def get_type
     types = {strength: 0, cardio: 0, other: 0}
-
     exercises.each do |exercise|
       if exercise[:category] == "cardio"
-        types[:cardio]+=1
+        types[:cardio] += 1
       elsif exercise[:category] =="strength"
-        types[:strength]+=1
+        types[:strength] += 1
       else
-        types[:other]+=1
+        types[:other] += 1
       end
     end
 
@@ -43,7 +36,7 @@ attr_accessor :id, :type, :duration, :calories
   def get_duration
     duration = 0
     exercises.each do |exercise|
-      duration+=exercise[:duration_in_min]
+      duration += exercise[:duration_in_min]
     end
     duration.to_f
   end
